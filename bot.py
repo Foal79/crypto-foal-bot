@@ -2,7 +2,6 @@ import tweepy
 import random
 import time
 import os
-from datetime import datetime
 
 # Load Twitter credentials from environment variables
 API_KEY = os.getenv("API_KEY")
@@ -30,22 +29,25 @@ projects = {
     # Add more projects and tweets here
 }
 
-# Tweet once per project
-for project, tweets in projects.items():
-    tweet = random.choice(tweets)
-    full_tweet = f"{project}: {tweet}"
-    try:
-        api.update_status(full_tweet)
-        print(f"Tweeted: {full_tweet}")
-        time.sleep(5)
-    except Exception as e:
-        print(f"Error tweeting for {project}: {e}")
-
-# Follow relevant accounts
+# Accounts to follow
 to_follow = ["@LidoFinance", "@Starknet", "@zksync"]  # add more
-for user in to_follow:
-    try:
-        api.create_friendship(screen_name=user)
-        print(f"Followed {user}")
-    except Exception as e:
-        print(f"Error following {user}: {e}")
+
+if __name__ == "__main__":
+    # Tweet once per project
+    for project, tweets in projects.items():
+        tweet = random.choice(tweets)
+        full_tweet = f"{project}: {tweet}"
+        try:
+            api.update_status(full_tweet)
+            print(f"Tweeted: {full_tweet}")
+            time.sleep(5)
+        except Exception as e:
+            print(f"Error tweeting for {project}: {e}")
+
+    # Follow relevant accounts
+    for user in to_follow:
+        try:
+            api.create_friendship(screen_name=user)
+            print(f"Followed {user}")
+        except Exception as e:
+            print(f"Error following {user}: {e}")
